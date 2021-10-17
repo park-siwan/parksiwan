@@ -7,7 +7,8 @@ const cx = classNames.bind(home);
  const Home = () => {
   return (
     <div className={cx('home')}>
-      home 컴포넌트
+      <h1>home 컴포넌트</h1>
+      <h2>폰트적용</h2>
     </div>
   )
 }

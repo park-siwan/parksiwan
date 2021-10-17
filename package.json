@@ -20,7 +20,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "node-sass": "node-sass",
-    "sass": "node-sass -wr --source-map true src/styles/main.scss style.css"
+    "sass": "node-sass -wr --source-map true src/styles/main.scss src/styles/style.css"
   },
   "eslintConfig": {
     "extends": [
