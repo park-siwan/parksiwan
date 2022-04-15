@@ -2,9 +2,10 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Flex from '../../atoms/Flex';
+import { colors } from '../../../constants/colors';
 const isActiveStyle = {
   fontWeight: '900',
-  color: 'red',
+  color: colors.blue,
 };
 const GnbContainer = styled.ul`
   width: 100%;
@@ -15,27 +16,33 @@ const Span = styled.span`
 `;
 const Li = styled.li`
   font-size: 16px;
+  :not(:last-child) {
+    margin-right: 10px;
+  }
 `;
 
 export default function Gnb() {
   return (
-    <Flex>
-      <Li>
-        <NavLink
-          to='/'
-          style={({ isActive }) => (isActive ? isActiveStyle : {})}
-        >
-          <Span>소개</Span>
-        </NavLink>
-      </Li>
-      <Li>
-        <NavLink
-          to='/healthDiary'
-          style={({ isActive }) => (isActive ? isActiveStyle : {})}
-        >
-          <Span>건강 일기</Span>
-        </NavLink>
-      </Li>
-    </Flex>
+    <>
+      <Flex fullWidth height={80}>
+        <Li>
+          <NavLink
+            to='/#intro'
+            style={({ isActive }) => (isActive ? isActiveStyle : {})}
+          >
+            <Span>소개</Span>
+          </NavLink>
+        </Li>
+        <Li>
+          <NavLink
+            to='/#healthDiary'
+            style={({ isActive }) => (isActive ? isActiveStyle : {})}
+          >
+            <Span>프로젝트 목록</Span>
+          </NavLink>
+        </Li>
+      </Flex>
+      <hr />
+    </>
   );
 }

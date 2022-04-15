@@ -80,12 +80,17 @@ button {
   padding: 0; }
 
 ul,
-ol {
+ol,
+li {
   padding-left: 0;
   list-style: none; }
 
 address {
   font-style: normal; }
+
+hr {
+  width: 100%;
+  border: 0.5px solid #e2e2e2; }
 
 /* stylelint-disable */
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
