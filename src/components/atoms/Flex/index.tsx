@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 /** @jsxImportSource @emotion/react */
 import { css, SerializedStyles } from '@emotion/react';
-import { primary, tertiary } from '../../../constants/colors';
+import { colors } from '../../../constants/colors';
 
 interface flexMapSig {
   [props: string]: string;
@@ -174,7 +174,7 @@ export default function Flex({
       flex={flex}
       column={(column && 'column') || 'row'}
       style={style}
-      bgColor={bgColor}
+      bgColor={colors[bgColor || '']}
       pd={pd}
       border={border}
       br={br}
