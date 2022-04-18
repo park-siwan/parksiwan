@@ -19,7 +19,7 @@ const Home = () => {
               <h2 id='intro'>소개</h2>
               <p>
                 React, TypeScript 등을 이용하여 프론트 개발을 하고있다.
-                트리피누라는 여행플랫폼 회사에서 11개월 근무하였다.
+                여행플랫폼 회사(트리피누)에서 11개월 근무하였다.
               </p>
               <h2 id='healthDiary'>프로젝트 목록</h2>
               <Link to='/healthDiary'>건강 일기</Link>
