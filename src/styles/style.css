@@ -72,6 +72,12 @@ textarea {
     outline: none;
     box-shadow: none; }
 
+textarea {
+  white-space: pre-wrap; }
+
+p {
+  white-space: pre-wrap; }
+
 a,
 button {
   cursor: pointer; }
