@@ -216,7 +216,7 @@ export default function HealthDiary() {
                 )}
               />
 
-              <input type='submit' value='콘솔확인' />
+              {/* <input type='submit' value='콘솔확인' /> */}
             </Stack>
           </form>
         </div>
