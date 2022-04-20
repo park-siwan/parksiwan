@@ -83,7 +83,7 @@ export default function HealthDiary() {
         <div className='col-sm-4 col-md-6'>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={2}>
-              <h2>입력</h2>
+              {/* <h2>입력</h2> */}
               <Controller
                 name='createDate'
                 control={control}
