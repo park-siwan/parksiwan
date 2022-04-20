@@ -17,6 +17,11 @@ import {
   usePDF,
 } from '@react-pdf/renderer';
 import axios from 'axios';
+//pdf viewer
+import { Document as Document2, Page as Page2, pdfjs } from 'react-pdf';
+import useWindowSize from '../../hooks/useWindowSize';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function componentWithChildren<Props>(Component: React.ComponentType<Props>) {
   return Component as React.ComponentType<Props & { children: ReactNode }>;
@@ -25,9 +30,10 @@ const Document = componentWithChildren(_Document);
 const Page = componentWithChildren(_Page);
 
 export default function PrintDocs() {
+  const windowSize = useWindowSize();
   useEffect(() => {
     Font.register({
-      family: 'Nanum Gothic',
+      family: 'Spoqa',
       src:
         'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.ttf',
     });
@@ -54,47 +60,46 @@ export default function PrintDocs() {
     // console.log(styles);
 
     const S = StyleSheet.create({
-      body: {
+      outer: {
+        backgroundColor: '#f8cbc9',
         width: '100%',
-        // webkitBoxShadow: '0 25px 50px 0 rgb(62 62 62 / 15%)',
         boxShadow: '0 25px 50px 0 rgb(62 62 62 / 15%)',
-        // width: '100%',
-        // flexDirection: 'row',
-        backgroundColor: '#ffffff',
       },
-      section: {
-        // backgroundColor: '#ffffff',
-        margin: 10,
+      inner: {
+        backgroundColor: 'white',
+        // marginTop: 100,
+        marginHorizontal: 40,
+        marginBottom: 40,
         padding: 10,
         flexGrow: 1,
       },
       text: {
-        fontFamily: 'Nanum Gothic',
+        fontFamily: 'Spoqa',
       },
       header: {
-        width: '100%',
+        marginTop: 20,
+        paddingBottom: 10,
+        paddingRight: 40,
+        // width: '100%',
         fontSize: '14px',
         fontWeight: 'bold',
-        fontFamily: 'Nanum Gothic',
+        color: '#350d0b',
+        textAlign: 'right',
+        fontFamily: 'Spoqa',
       },
       title: {
         width: '100%',
         fontSize: '20px',
-        fontFamily: 'Nanum Gothic',
+        fontFamily: 'Spoqa',
       },
     });
     return (
       <Document creator='시완'>
-        {/* <Canvas
-          paint={{ availableWidth: 100 }}
-          // availableWidth={100}
-          // availableHeight={100}
-        /> */}
-        <Page size='A4' style={S.body}>
-          <View style={S.section}>
-            <Text style={S.header}>
-              날짜 : {format(createDate, 'yyyy.MM.dd.E', { locale: ko })}
-            </Text>
+        <Page size='A4' style={S.outer}>
+          <Text style={S.header}>
+            Date {format(createDate, 'yyyy.MM.dd.E', { locale: ko })}
+          </Text>
+          <View style={S.inner}>
             <Text style={S.title}>제목 : {title}</Text>
             <Text style={S.text}>
               내용 : {desc}
@@ -114,16 +119,45 @@ export default function PrintDocs() {
       </Document>
     );
   };
+  //pdf viewer
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
 
+  function onDocumentLoadSuccess({ numPages }: { numPages: any }) {
+    setNumPages(numPages);
+  }
+  //renderer
   const [instance, updateInstance] = usePDF({ document: <MyDoc /> });
+
+  useEffect(() => {
+    // setTimeout(() => updateInstance(), 1000);
+    updateInstance();
+  }, [inputData]);
 
   if (instance.loading) return <div>Loading ...</div>;
 
-  if (instance.error) return <div>Something went wrong: {instance.error}</div>;
+  if (instance.error) return <div>오류: {instance.error}</div>;
+
   return (
     <div className='col-sm-4 col-md-6'>
       {/* <h2>출력</h2> */}
-      <MyDoc />
+      {/* <MyDoc /> */}
+      <Document2
+        loading={'test1'}
+        file={instance.url}
+        onLoadSuccess={onDocumentLoadSuccess}
+        options={{
+          standardFontDataUrl:
+            'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.ttf',
+        }}
+      >
+        <Page2
+          loading={'test1'}
+          pageNumber={pageNumber}
+          width={windowSize.width / 2.3}
+          // height={windowSize.height / 5}
+        />
+      </Document2>
       <a href={instance.url || undefined} download={`${title}.pdf`}>
         다운로드
       </a>

@@ -18,7 +18,7 @@ const date = new Date();
 
 export default function HealthDiary() {
   const [data, setData] = useRecoilState(diaryData);
-  console.log('🚀 ~ file: index.tsx ~ line 34 ~ HealthDiary ~ data', data);
+  // console.log('🚀 ~ file: index.tsx ~ line 34 ~ HealthDiary ~ data', data);
   // useEffect(() => {
 
   // }, [setData]);
