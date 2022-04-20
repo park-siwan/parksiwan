@@ -15,23 +15,13 @@ import PrintDocs from './PrintDocs';
 const date = new Date();
 // const today = format(date, 'yyyy.MM.dd.E');
 // const dayOfWeek = format(date, 'E');
-const defaultValue = {
-  createDate: date,
-  title: '오늘의 건강일기',
-  desc:
-    '아침 수업이 있어서 7시에 일어나 시리얼을 먹고 학교를 갔다.\n\n점심은 2시쯤 집에와서 떡갈비, 스팸, 검은콩, 일미를 차려서 먹었다.\n\n저녁은 8시에 국밥을 먹고 집을 갔다.\n\n매일 학교 갈때 올때 걸어다니며, 오늘은 6시에 테니스 동아리가 있어서 2시간정도 유산소 운동을 했다.',
-  morning: '시리얼',
-  lunch: '떡갈비, 스팸, 검은콩, 일미',
-  dinner: '국밥',
-  snack: '아메리카노',
-  nutrients: '유산균, 비타민C, 오메가3',
-  // sleepTime:'',
-  exercise: '테니스 운동을 2시간 했다.',
-  review: '유산소 운동 2시간 하고 밥도 잘 챙겨먹었다.',
-};
+
 export default function HealthDiary() {
   const [data, setData] = useRecoilState(diaryData);
+  console.log('🚀 ~ file: index.tsx ~ line 34 ~ HealthDiary ~ data', data);
+  // useEffect(() => {
 
+  // }, [setData]);
   // const [value, setValue] = useState<Date | null>(date);
   const {
     control,
@@ -42,7 +32,8 @@ export default function HealthDiary() {
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
-      ...defaultValue,
+      // ...defaultValue,
+      ...data,
     },
   });
 
@@ -75,6 +66,8 @@ export default function HealthDiary() {
     sleepTime,
     exercise,
     review,
+    setData,
+    getValues,
   ]);
 
   // console.log(createDate);
