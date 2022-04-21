@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import {
+  useForm,
+  SubmitHandler,
+  Controller,
+  useFormState,
+} from 'react-hook-form';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import TextField from '@mui/material/TextField';
 
@@ -11,24 +16,34 @@ import Stack from '@mui/material/Stack';
 import { useRecoilState } from 'recoil';
 import { diaryData } from './store';
 import { Inputs } from './type';
-import PrintDocs from './PrintDocs';
+import { Font, usePDF } from '@react-pdf/renderer';
+import PdfRenderer from './PdfRenderer';
+import PdfViewer from './PdfViewer';
 const date = new Date();
-// const today = format(date, 'yyyy.MM.dd.E');
-// const dayOfWeek = format(date, 'E');
 
 export default function HealthDiary() {
   const [data, setData] = useRecoilState(diaryData);
-  // console.log('🚀 ~ file: index.tsx ~ line 34 ~ HealthDiary ~ data', data);
-  // useEffect(() => {
 
-  // }, [setData]);
-  // const [value, setValue] = useState<Date | null>(date);
+  //pdf renderer
+  const [instance, updateInstance] = usePDF({
+    document: <PdfRenderer inputData={data} />,
+  });
+
+  useEffect(() => {
+    Font.register({
+      family: 'Spoqa',
+      src:
+        'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.ttf',
+    });
+  }, []);
+
   const {
     control,
     register,
     handleSubmit,
     watch,
     getValues,
+
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
@@ -50,6 +65,14 @@ export default function HealthDiary() {
     exercise,
     review,
   } = watch();
+  // const { isDirty } = useFormState({
+  //   // control,
+  // });
+  // // const { isDirty } = useFormState();
+  // console.log(
+  //   '🚀 ~ file: index.tsx ~ line 60 ~ HealthDiary ~ isDirty',
+  //   isDirty
+  // );
 
   useEffect(() => {
     const current = getValues();
@@ -68,6 +91,7 @@ export default function HealthDiary() {
     review,
     setData,
     getValues,
+    watch,
   ]);
 
   // console.log(createDate);
@@ -214,7 +238,8 @@ export default function HealthDiary() {
             </Stack>
           </form>
         </div>
-        <PrintDocs />
+        <PdfViewer instance={instance} />
+        <button onClick={() => updateInstance()}>pdf 적용하기</button>
       </div>
     </div>
   );
