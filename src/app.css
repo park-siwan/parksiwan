@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
 
-@font-face {
+/* @font-face {
   font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   src: local('Spoqa Han Sans Neo Bold'),
@@ -58,4 +58,4 @@
       format('woff'),
     url('https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Thin.ttf')
       format('truetype');
-}
+} */

@@ -6,13 +6,18 @@ import { Document as Document2, Page as Page2, pdfjs } from 'react-pdf';
 import useWindowSize from '../../hooks/useWindowSize';
 import { useRecoilValue } from 'recoil';
 import { diaryData } from './store';
+import { Button } from '@mui/material';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+// import { setTimeout } from 'timers';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
 export default function PrintDocs({
   instance,
+  updateInstance,
 }: {
   instance: ReactPDF.UsePDFInstance;
+  updateInstance: () => void;
 }) {
   const inputData = useRecoilValue(diaryData);
   const { title } = inputData;
@@ -29,7 +34,20 @@ export default function PrintDocs({
   if (instance.loading) return <div>Loading ...</div>;
 
   if (instance.error) return <div>오류: {instance.error}</div>;
-
+  const handleDownload = () => {
+    updateInstance();
+    setTimeout(() => {}, 1000);
+    if (instance.url === null) return;
+    const link = document.createElement('a');
+    link.href = instance.url;
+    link.setAttribute('download', `${title}.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    // <a href={instance.url || undefined} download={`${title}.pdf`}>
+    //   pdf 다운로드
+    // </a>;
+  };
   return (
     <div className='col-sm-4 col-md-6'>
       {/* <h2>출력</h2> */}
@@ -50,9 +68,30 @@ export default function PrintDocs({
           // height={windowSize.height / 5}
         />
       </Document2>
-      <a href={instance.url || undefined} download={`${title}.pdf`}>
-        pdf 다운로드
-      </a>
+      <div
+        css={css`
+          display: flex;
+          justify-content: end;
+          z-index: 5000;
+          background-color: #eaecf3;
+          width: 100%;
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          padding: 10px;
+        `}
+      >
+        <Button
+          variant='outlined'
+          sx={{ marginRight: 2 }}
+          href={instance.url || undefined}
+        >
+          pdf 새창으로 보기
+        </Button>
+        <Button onClick={handleDownload} variant='contained'>
+          pdf 다운로드
+        </Button>
+      </div>
       {/* <PDFViewer width={'100%'} height={'50%'}>
         <MyDoc />
       </PDFViewer> */}

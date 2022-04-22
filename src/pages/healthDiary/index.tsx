@@ -19,6 +19,22 @@ import { Inputs } from './type';
 import { Font, usePDF } from '@react-pdf/renderer';
 import PdfRenderer from './PdfRenderer';
 import PdfViewer from './PdfViewer';
+// import Button from '../../components/atoms/Button';
+import { Button, ButtonGroup, Typography } from '@mui/material';
+import { blueGrey, pink } from '@mui/material/colors';
+import Flex from '../../components/atoms/Flex';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+// import { SimCardDownloadIcon } from '@mui/icons-material/';
+import SimCardDownloadIcon from '@mui/icons-material/SimCardDownload';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Divider from '@mui/material/Divider';
 const date = new Date();
 
 export default function HealthDiary() {
@@ -65,15 +81,6 @@ export default function HealthDiary() {
     exercise,
     review,
   } = watch();
-  // const { isDirty } = useFormState({
-  //   // control,
-  // });
-  // // const { isDirty } = useFormState();
-  // console.log(
-  //   '🚀 ~ file: index.tsx ~ line 60 ~ HealthDiary ~ isDirty',
-  //   isDirty
-  // );
-
   useEffect(() => {
     const current = getValues();
     setData(current);
@@ -97,14 +104,61 @@ export default function HealthDiary() {
   // console.log(createDate);
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
   return (
-    <div className='container'>
-      <div className='row'>
-        <div className='col-sm-4'>
-          <h1>헬스 다이어리</h1>
+    <div
+      className='container'
+      css={css`
+        /* background-color: ${blueGrey[50]}; */
+      `}
+    >
+      <div
+        className='row'
+        css={css`
+          display: flex;
+          justify-content: center;
+        `}
+      >
+        <div
+          className='col-sm-4 col-md-6'
+          css={css`
+            box-shadow: 0 1px 4px rgb(0 0 0 / 12%);
+            z-index: 1;
+          `}
+        >
+          <Flex jc='between' fullWidth mt={20} mb={20}>
+            <IconButton onClick={updateInstance} aria-label='menu'>
+              <MenuIcon />
+            </IconButton>
+            <Typography variant='h4' component='h1'>
+              Health Diary
+            </Typography>
+            <IconButton onClick={updateInstance} aria-label='more features'>
+              <MoreHorizIcon />
+            </IconButton>
+          </Flex>
+          {/* <Divider /> */}
         </div>
       </div>
-      <div className='row'>
-        <div className='col-sm-4 col-md-6'>
+      <div
+        className='row'
+        css={css`
+          /* display: flex; */
+
+          /* padding-top: 20px; */
+          justify-content: center;
+        `}
+      >
+        <div
+          className='col-sm-4 col-md-6'
+          css={css`
+            background-color: white;
+            box-shadow: 0 1px 4px rgb(0 0 0 / 6%);
+          `}
+          style={{
+            paddingTop: '40px',
+            paddingLeft: '40px',
+            paddingRight: '40px',
+          }}
+        >
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={2}>
               {/* <h2>입력</h2> */}
@@ -121,7 +175,9 @@ export default function HealthDiary() {
                     }}
                     inputFormat={'yyyy.MM.dd'}
                     mask='____.__.__'
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => (
+                      <TextField variant='standard' {...params} />
+                    )}
                   />
                 )}
               />
@@ -133,6 +189,7 @@ export default function HealthDiary() {
                     label='제목'
                     {...field}
                     placeholder='제목을 입력하세요'
+                    variant='standard'
                   />
                 )}
               />
@@ -151,7 +208,7 @@ export default function HealthDiary() {
                   />
                 )}
               />
-              <hr />
+
               <Controller
                 name='morning'
                 control={control}
@@ -160,6 +217,7 @@ export default function HealthDiary() {
                     label='아침'
                     {...field}
                     placeholder='아침 식사를 입력하세요'
+                    variant='standard'
                   />
                 )}
               />
@@ -171,6 +229,7 @@ export default function HealthDiary() {
                     label='점심'
                     {...field}
                     placeholder='점심 식사를 입력하세요'
+                    variant='standard'
                   />
                 )}
               />
@@ -182,6 +241,7 @@ export default function HealthDiary() {
                     label='저녁'
                     {...field}
                     placeholder='저녁 식사를 입력하세요'
+                    variant='standard'
                   />
                 )}
               />
@@ -193,10 +253,11 @@ export default function HealthDiary() {
                     label='간식'
                     {...field}
                     placeholder='간식 식사를 입력하세요'
+                    variant='standard'
                   />
                 )}
               />
-              <hr />
+
               {/* 영양제기록 : 오토컴플리트(freesolo + Multiple values) */}
               {/* 수면시간 : 타임픽커 */}
               {/* 운동기록 : 오토컴플리트(freesolo운동종류 + dialog운동시간입력 요청 ) */}
@@ -208,6 +269,7 @@ export default function HealthDiary() {
                     label='영양제'
                     {...field}
                     placeholder='영양제를 입력하세요'
+                    variant='standard'
                   />
                 )}
               />
@@ -219,6 +281,7 @@ export default function HealthDiary() {
                     label='운동'
                     {...field}
                     placeholder='운동을 기록해주세요'
+                    variant='standard'
                   />
                 )}
               />
@@ -230,6 +293,7 @@ export default function HealthDiary() {
                     label='한줄평'
                     {...field}
                     placeholder='한줄평을 남겨주세요'
+                    variant='standard'
                   />
                 )}
               />
@@ -237,9 +301,9 @@ export default function HealthDiary() {
               {/* <input type='submit' value='콘솔확인' /> */}
             </Stack>
           </form>
+          <Flex fullWidth mb={120} />
         </div>
-        <PdfViewer instance={instance} />
-        <button onClick={() => updateInstance()}>pdf 적용하기</button>
+        {/* <PdfViewer instance={instance} updateInstance={updateInstance} /> */}
       </div>
     </div>
   );
