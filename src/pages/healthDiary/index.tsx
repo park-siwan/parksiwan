@@ -20,15 +20,20 @@ import { Font, usePDF } from '@react-pdf/renderer';
 import PdfRenderer from './PdfRenderer';
 import PdfViewer from './PdfViewer';
 // import Button from '../../components/atoms/Button';
-import { Button, ButtonGroup, Typography } from '@mui/material';
+import {
+  Button,
+  ButtonGroup,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from '@mui/material';
 import { blueGrey, pink } from '@mui/material/colors';
 import Flex from '../../components/atoms/Flex';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 // import { SimCardDownloadIcon } from '@mui/icons-material/';
-import SimCardDownloadIcon from '@mui/icons-material/SimCardDownload';
-import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import SimCardDownloadIcon from '@mui/icons-material/SimCardDownload';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -102,6 +107,23 @@ export default function HealthDiary() {
   ]);
 
   // console.log(createDate);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const open = Boolean(anchorEl);
+  const handleMoreClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = (e: React.MouseEvent<HTMLElement>, target: string) => {
+    // console.log(event);
+    console.log(target);
+    if (target === 'createPdf') {
+      //modal창 띄우고 pdf미리보기, pdf다운로드, pdf 새창보기 넣어야함
+      updateInstance();
+    }
+
+    setAnchorEl(null);
+  };
+
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
   return (
     <div
@@ -124,17 +146,62 @@ export default function HealthDiary() {
             z-index: 1;
           `}
         >
-          <Flex jc='between' fullWidth mt={20} mb={20}>
-            <IconButton onClick={updateInstance} aria-label='menu'>
+          <div
+            // jc='between' fullWidth mt={20} mb={20}
+            css={css`
+              display: flex;
+              justify-content: space-between;
+              width: 100%;
+              margin-top: 20px;
+              margin-bottom: 20px;
+            `}
+          >
+            <IconButton aria-label='menu'>
               <MenuIcon />
             </IconButton>
             <Typography variant='h4' component='h1'>
               Health Diary
             </Typography>
-            <IconButton onClick={updateInstance} aria-label='more features'>
-              <MoreHorizIcon />
-            </IconButton>
-          </Flex>
+            <div>
+              <IconButton
+                // onClick={updateInstance}
+                id='basic-button'
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup='true'
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleMoreClick}
+                aria-label='more features'
+              >
+                <MoreHorizIcon />
+              </IconButton>
+              <Menu
+                id='basic-menu'
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem
+                  // id='create-pdf'
+                  onClick={(e) => handleClose(e, 'createPdf')}
+                  sx={{ width: 320, maxWidth: '100%' }}
+                >
+                  <ListItemIcon>
+                    <PictureAsPdfIcon fontSize='small' />
+                  </ListItemIcon>
+                  <ListItemText>PDF 생성하기</ListItemText>
+                  <Typography variant='body2' color='text.secondary'>
+                    {/* ⌘X */}
+                  </Typography>
+                </MenuItem>
+                {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
+                {/* <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+              </Menu>
+            </div>
+          </div>
+
           {/* <Divider /> */}
         </div>
       </div>
