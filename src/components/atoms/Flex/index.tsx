@@ -22,6 +22,7 @@ interface FlexStyleProps {
   jc: string;
   type?: string;
   flex?: string;
+  margin?: number | string;
   mt?: number | string;
   mb?: number | string;
   ml?: number | string;
@@ -45,12 +46,13 @@ const FlexStyle = styled.div<FlexStyleProps>`
   justify-content: ${(props) => flexMap[props.jc] || 'center'};
   align-items: ${(props) => flexMap[props.ai] || 'center'};
   /* flex:1는 flex-grow: 1; flex-shrink: 1; flex-basis: 0%; 의 생략형*/
+
   flex: ${(props) => props.flex};
   margin-top: ${(props) => props.mt};
   margin-bottom: ${(props) => props.mb};
   margin-left: ${(props) => props.ml};
   margin-right: ${(props) => props.mr};
-
+  margin: ${(props) => props.margin};
   padding-top: ${(props) => props.pt};
   padding-bottom: ${(props) => props.pb};
   padding-left: ${(props) => props.pl};
@@ -67,10 +69,11 @@ const FlexStyle = styled.div<FlexStyleProps>`
 
 interface FlexProps {
   type?: [string?, string?];
-  children: any;
+  children?: any;
   jc?: string;
   ai?: string;
   flex?: string;
+  margin?: number | string;
   mt?: number | string;
   mb?: number | string;
   ml?: number | string;
@@ -99,6 +102,7 @@ export default function Flex({
   jc,
   ai,
   children,
+  margin,
   mt = '0',
   mb = '0',
   ml = '0',
@@ -148,7 +152,7 @@ export default function Flex({
   } else {
     heightSet = 'auto';
   }
-  const spaceList = [mt, mr, mb, ml, pt, pr, pb, pl];
+  const spaceList = [mt, mr, mb, ml, pt, pr, pb, pl, margin];
 
   spaceList.forEach((item, index) =>
     typeof item === 'number'
@@ -161,6 +165,7 @@ export default function Flex({
       className={`FlexComponent ${className}`}
       jc={jc || 'center'}
       ai={ai || 'center'}
+      margin={spaceList[8]}
       mt={spaceList[0]}
       mr={spaceList[1]}
       mb={spaceList[2]}
@@ -174,7 +179,7 @@ export default function Flex({
       flex={flex}
       column={(column && 'column') || 'row'}
       style={style}
-      bgColor={colors[bgColor || '']}
+      bgColor={bgColor || ''}
       pd={pd}
       border={border}
       br={br}
