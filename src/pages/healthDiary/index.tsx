@@ -184,7 +184,6 @@ export default function HealthDiary() {
                 }}
               >
                 <MenuItem
-                  // id='create-pdf'
                   onClick={(e) => handleClose(e, 'createPdf')}
                   sx={{ width: 320, maxWidth: '100%' }}
                 >
@@ -192,25 +191,21 @@ export default function HealthDiary() {
                     <PictureAsPdfIcon fontSize='small' />
                   </ListItemIcon>
                   <ListItemText>PDF 생성하기</ListItemText>
-                  <Typography variant='body2' color='text.secondary'>
-                    {/* ⌘X */}
-                  </Typography>
+                  <Typography
+                    variant='body2'
+                    color='text.secondary'
+                  ></Typography>
                 </MenuItem>
                 {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
                 {/* <MenuItem onClick={handleClose}>Logout</MenuItem> */}
               </Menu>
             </div>
           </div>
-
-          {/* <Divider /> */}
         </div>
       </div>
       <div
         className='row'
         css={css`
-          /* display: flex; */
-
-          /* padding-top: 20px; */
           justify-content: center;
         `}
       >
@@ -228,7 +223,6 @@ export default function HealthDiary() {
         >
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={2}>
-              {/* <h2>입력</h2> */}
               <Controller
                 name='createDate'
                 control={control}
@@ -266,7 +260,6 @@ export default function HealthDiary() {
                 control={control}
                 render={({ field }) => (
                   <TextareaAutosize
-                    // className='form-input'
                     {...field}
                     aria-label='diary contents'
                     placeholder='내용을 입력해주세요'
@@ -364,13 +357,10 @@ export default function HealthDiary() {
                   />
                 )}
               />
-
-              {/* <input type='submit' value='콘솔확인' /> */}
             </Stack>
           </form>
           <Flex fullWidth mb={120} />
         </div>
-        {/* <PdfViewer instance={instance} updateInstance={updateInstance} /> */}
       </div>
     </div>
   );
