@@ -11,13 +11,15 @@ import {
   BlobProvider,
   Canvas,
   usePDF,
+  Svg,
+  Circle,
 } from '@react-pdf/renderer';
 import format from 'date-fns/format';
 import ko from 'date-fns/locale/ko';
 import { useRecoilValue } from 'recoil';
 import { diaryData } from './store';
 import { Inputs } from './type';
-
+import FavoriteIcon from '@mui/icons-material/Favorite';
 function PdfRenderer({ inputData }: { inputData: Inputs }) {
   const {
     createDate,
@@ -77,6 +79,14 @@ function PdfRenderer({ inputData }: { inputData: Inputs }) {
   return (
     <Document creator='시완'>
       <Page size='A4' style={S.outer}>
+        <Text style={S.header}>HEALTH JOURNAL</Text>
+        <Svg viewBox='0 0 100 100' height='210' width='500'>
+          <Circle cx='50' cy='50' r='40' fill='tomato' stroke='gray' />
+        </Svg>
+
+        {/* </Svg> */}
+        {/* </Svg> */}
+        {/* 시간 */}
         <Text style={S.header}>
           Date {format(createDate, 'yyyy.MM.dd.E', { locale: ko })}
         </Text>

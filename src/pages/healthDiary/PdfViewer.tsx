@@ -9,6 +9,7 @@ import { diaryData } from './store';
 import { Button } from '@mui/material';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import Flex from '../../components/atoms/Flex';
 // import { setTimeout } from 'timers';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -49,9 +50,11 @@ export default function PrintDocs({
     // </a>;
   };
   return (
-    <div className='col-sm-4 col-md-6'>
+    <div className='col-sm-4'>
+      {/* <div> */}
       {/* <h2>출력</h2> */}
       {/* <MyDoc /> */}
+
       <Document2
         loading={'test1'}
         file={instance.url}
@@ -64,23 +67,12 @@ export default function PrintDocs({
         <Page2
           loading={'test1'}
           pageNumber={pageNumber}
-          width={windowSize.width / 3}
-          // height={windowSize.height / 5}
+          // width={windowSize.width}
+          // height={windowSize.height}
         />
       </Document2>
-      <div
-        css={css`
-          display: flex;
-          justify-content: end;
-          z-index: 5000;
-          background-color: #eaecf3;
-          width: 100%;
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          padding: 10px;
-        `}
-      >
+
+      <Flex jc='end'>
         <Button
           variant='outlined'
           sx={{ marginRight: 2 }}
@@ -91,10 +83,10 @@ export default function PrintDocs({
         <Button onClick={handleDownload} variant='contained'>
           pdf 다운로드
         </Button>
-      </div>
+      </Flex>
       {/* <PDFViewer width={'100%'} height={'50%'}>
-        <MyDoc />
-      </PDFViewer> */}
+          <MyDoc />
+        </PDFViewer> */}
     </div>
   );
 }
