@@ -17,8 +17,8 @@ import { useRecoilState } from 'recoil';
 import { diaryData } from './store';
 import { Inputs } from './type';
 import { Font, usePDF } from '@react-pdf/renderer';
-import PdfRenderer from './PdfRenderer';
-import PdfViewer from './PdfViewer';
+import PdfRenderer from './pdf/PdfRenderer';
+import PdfViewer from './pdf/PdfViewer';
 // import Button from '../../components/atoms/Button';
 import {
   Button,
@@ -146,6 +146,7 @@ export default function HealthDiary() {
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
   return (
     <>
+      <PdfViewer instance={instance} updateInstance={updateInstance} />
       <Modal
         open={modalOpen}
         onClose={handleModalClose}
