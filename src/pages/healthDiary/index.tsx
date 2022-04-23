@@ -21,12 +21,6 @@ export default function HealthDiary() {
   const date = new Date();
   const today = format(date, 'yyyy-MM-dd');
   const dayOfWeek = format(date, 'eeee');
-  // console.log(
-  //   '🚀 ~ file: index.tsx ~ line 8 ~ HealthDiary ~ dayOfWeek',
-  //   dayOfWeek
-  // );
-  // const todayOfWeek = getDay(date);
-  // console.log('🚀 ~ file: index.tsx ~ line 5 ~ HealthDiary ~ date', today);
 
   return (
     <div className='container'>
