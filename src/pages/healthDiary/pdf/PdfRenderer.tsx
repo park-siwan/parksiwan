@@ -87,33 +87,58 @@ function PdfRenderer({ inputData }: { inputData: Inputs }) {
           <View style={{ flexDirection: 'row' }}>
             <View style={S.foods}>
               <View style={S.food}>
-                <Text>아침 : {morning}</Text>
+                <Text style={S.foodTitle}>아침</Text>
+                <Text style={S.foodDesc}>{morning}</Text>
               </View>
               <View style={S.food}>
-                <Text>점심 : {lunch}</Text>
+                <Text style={S.foodTitle}>점심</Text>
+                <Text style={S.foodDesc}>{lunch}</Text>
               </View>
               <View style={S.food}>
-                <Text>저녁 : {dinner}</Text>
+                <Text style={S.foodTitle}>저녁</Text>
+                <Text style={S.foodDesc}>{dinner}</Text>
               </View>
               <View style={{ ...S.food, borderBottom: 0 }}>
-                <Text>간식 : {snack}</Text>
+                <Text style={S.foodTitle}>간식</Text>
+                <Text style={S.foodDesc}>{snack}</Text>
               </View>
             </View>
             <View style={S.rightBodies}>
-              <Text>제목 : {title}</Text>
-              <Text>내용 : {desc}</Text>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: 700,
+                  color: primary[600],
+                  marginBottom: 8,
+                }}
+              >
+                {title}
+              </Text>
+              <Text
+                style={{
+                  fontWeight: 400,
+                  color: gray[500],
+                }}
+              >
+                {desc}
+              </Text>
             </View>
           </View>
-          <View>
-            <Text style={S.bottomInfo}>영양제 기록 : {nutrients} </Text>
-
-            <Text style={S.bottomInfo}>수면 시간 </Text>
-
-            <Text style={S.bottomInfo}> 운동 기록 : {exercise}</Text>
-
-            <Text style={S.bottomInfo}>한줄평 : {review}</Text>
+          <View style={S.bottomBox}>
+            <Text style={S.bottomTitle}>영양제 기록</Text>
+            <Text style={S.bottomDesc}>{nutrients} </Text>
           </View>
-
+          <View style={S.bottomBox}>
+            <Text style={S.bottomTitle}>수면 시간 </Text>
+          </View>
+          <View style={S.bottomBox}>
+            <Text style={S.bottomTitle}>운동 기록</Text>
+            <Text style={S.bottomDesc}>{exercise}</Text>
+          </View>
+          <View style={S.bottomBox}>
+            <Text style={S.bottomTitle}>한줄평</Text>
+            <Text style={S.bottomDesc}>{review}</Text>
+          </View>
           {/* 수면시간 총합 */}
         </View>
       </Page>

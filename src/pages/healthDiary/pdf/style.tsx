@@ -1,14 +1,14 @@
 import { StyleSheet } from '@react-pdf/renderer';
 export const primary = {
-  100: '#FAE5E6',
-  500: '#E3ACAC',
-  600: '#E7A9AA',
-  700: '#9F5C5C',
+  100: '#FAE5E6', //배경
+  500: '#E3ACAC', //헤더 글자
+  600: '#E7A9AA', // 본문 타이틀
+  700: '#9F5C5C', // 헤더 날짜
 };
 export const gray = {
   100: '#E9E3E3', //border
   300: '#CBC5C5',
-  500: '#A69E9E',
+  500: '#A69E9E', //내용desc
 };
 const fontFamily = 'Spoqa';
 export const S = StyleSheet.create({
@@ -40,14 +40,11 @@ export const S = StyleSheet.create({
     paddingHorizontal: 40,
   },
   headerText: {
-    // display: 'flex',
     fontSize: '14px',
     fontWeight: 400,
     color: primary[700],
   },
-  foods: {
-    // justifyContent: 'flex-start',
-  },
+  foods: {},
   food: {
     width: 163,
     height: 143.5,
@@ -55,25 +52,34 @@ export const S = StyleSheet.create({
     borderBottom: `1px solid ${gray[100]}`,
     padding: 10,
   },
+  foodTitle: {
+    color: primary[600],
+    fontWeight: 700,
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  foodDesc: { color: gray[500], fontSize: 14 },
   rightBodies: {
-    // display: 'flex',
-    // justifyContent: 'flex-end',
     width: 360,
     height: 574,
-    padding: 10,
+    padding: 26,
   },
-  bottomInfo: {
+  bottomBox: {
     fontSize: '12px',
-    // justifyContent: 'center',
     borderTop: `1px solid ${gray[100]}`,
-
-    // height: 40,
     width: '100%',
-    // borderLeft: `1px solid ${gray[100]}`,
-    // height: 574,
+    flexDirection: 'row',
     paddingTop: 14,
     paddingBottom: 14,
     paddingLeft: 20,
     paddingRight: 20,
+  },
+  bottomTitle: {
+    fontWeight: 500,
+    color: gray[500],
+    marginRight: 20,
+  },
+  bottomDesc: {
+    color: gray[500],
   },
 });
