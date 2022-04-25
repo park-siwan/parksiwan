@@ -53,11 +53,29 @@ export default function HealthDiary() {
   });
 
   useEffect(() => {
+    // 스포카폰트 : https://spoqa.github.io/spoqa-han-sans/
     Font.register({
       family: 'Spoqa',
-      src:
-        'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.ttf',
+      fonts: [
+        {
+          src:
+            'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.ttf',
+          fontWeight: 400,
+        },
+        {
+          src:
+            'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.ttf',
+          fontWeight: 500,
+        },
+        {
+          src:
+            'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.ttf',
+          fontWeight: 700,
+        },
+      ],
     });
+    // 500 : https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.ttf
+    // 700 : https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.ttf
   }, []);
 
   const {
