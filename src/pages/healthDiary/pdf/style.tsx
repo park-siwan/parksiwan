@@ -78,8 +78,17 @@ export const S = StyleSheet.create({
     fontWeight: 500,
     color: gray[500],
     marginRight: 20,
+    width: 70,
   },
   bottomDesc: {
     color: gray[500],
+  },
+  totalSleepTimeTitle: {
+    fontWeight: 500,
+    color: gray[500],
+    marginRight: 8,
+  },
+  totalSleepTime: {
+    fontWeight: 700,
   },
 });
