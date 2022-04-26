@@ -148,7 +148,7 @@ function PdfRenderer({ inputData }: { inputData: Inputs }) {
                 <Text style={{ ...S.bottomDesc }}>
                   {formatToSleepTimeStart}
                 </Text>
-                <Text style={{ marginHorizontal: 10 }}>~</Text>
+                <Text style={{ ...S.bottomDesc, marginHorizontal: 10 }}>~</Text>
                 <Text style={{ ...S.bottomDesc, marginRight: 30 }}>
                   {formatToSleepTimeEnd}
                 </Text>
@@ -158,7 +158,7 @@ function PdfRenderer({ inputData }: { inputData: Inputs }) {
                   flexDirection: 'row',
                 }}
               >
-                <Text style={{ marginHorizontal: 10 }}>|</Text>
+                <Text style={{ ...S.bottomDesc, marginHorizontal: 10 }}>|</Text>
                 <View style={{ ...S.bottomDesc, flexDirection: 'row' }}>
                   <Text style={S.totalSleepTimeTitle}>TOTAL</Text>
                   <Text style={S.totalSleepTime}>{sleepHour}</Text>

@@ -89,6 +89,7 @@ export const S = StyleSheet.create({
     marginRight: 8,
   },
   totalSleepTime: {
-    fontWeight: 700,
+    // fontWeight: 700,
+    // color: gray[500],
   },
 });
