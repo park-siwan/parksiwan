@@ -46,6 +46,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { styled } from '@mui/material/styles';
 import { PhotoCamera } from '@mui/icons-material';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
 const date = new Date();
 
 export default function HealthDiary() {
@@ -107,32 +109,73 @@ export default function HealthDiary() {
     sleepTimeEnd,
     exercise,
     review,
+    descImg,
+    morningPicture,
+    lunchPicture,
+    dinnerPicture,
+    snackPicture,
   } = watch();
-  // useEffect(() => {
-  //   const current = getValues();
-  //   console.log(
-  //     '🚀 ~ file: index.tsx ~ line 112 ~ useEffect ~ current',
-  //     current
-  //   );
-  //   setData(current);
-  // }, [
-  //   createDate,
-  //   title,
-  //   desc,
-  //   morning,
-  //   lunch,
-  //   dinner,
-  //   snack,
-  //   nutrients,
-  //   sleepTimeStart,
-  //   sleepTimeEnd,
-  //   exercise,
-  //   review,
-  //   setData,
-  //   getValues,
-  //   watch,
-  // ]);
 
+  //사진 이미지 미리보기
+  interface ImgList {
+    // descImg?: string | ArrayBuffer | null;
+    descImg: { reader: FileReader | null; file: File | null };
+  }
+  const [imgPreview, setImgPreview] = useState<ImgList>({
+    descImg: { reader: null, file: null },
+  });
+  console.log(
+    '🚀 ~ file: index.tsx ~ line 120 ~ HealthDiary ~ imgPreview',
+    imgPreview
+  );
+
+  useEffect(() => {
+    if (descImg === undefined || descImg === null) return;
+    let reader = new FileReader();
+    reader.onload = () =>
+      setImgPreview((prev) => {
+        return { ...prev, descImg: { reader, file: descImg[0] } };
+      });
+    reader.readAsDataURL(descImg[0]);
+  }, [descImg]);
+
+  const ImgPreview = (): JSX.Element | null => {
+    if (imgPreview.descImg.reader === null) return null;
+    if (imgPreview.descImg.file === null) return null;
+    if (
+      imgPreview.descImg.reader.result instanceof ArrayBuffer ||
+      imgPreview.descImg.reader.result === null
+    )
+      return null;
+    const itemData = [
+      {
+        img: imgPreview.descImg.reader.result,
+        title: imgPreview.descImg.file.name,
+      },
+    ];
+    return (
+      // <img
+      //   css={css`
+      //     width: 200px;
+      //   `}
+      //   src={imgPreview.descImgUrl}
+      //   alt={'desc'}
+      // />
+      <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+        {itemData.map((item) => (
+          <ImageListItem key={item.img}>
+            <img
+              src={`${item.img}`}
+              srcSet={`${item.img}`}
+              alt={item.title}
+              loading='lazy'
+            />
+          </ImageListItem>
+        ))}
+      </ImageList>
+    );
+  };
+  console.log(imgPreview);
   //더보기(...) 버튼 전용
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -194,6 +237,7 @@ export default function HealthDiary() {
     </IconButton>
   );
   console.log(getValues());
+
   return (
     <>
       <PdfViewer instance={instance} updateInstance={updateInstance} />
@@ -371,7 +415,7 @@ export default function HealthDiary() {
                     `}
                   >
                     <Controller
-                      name='descPicture'
+                      name='descImg'
                       control={control}
                       render={({ field }) => (
                         <PictureInput
@@ -615,6 +659,9 @@ export default function HealthDiary() {
               </Stack>
             </form>
             <Flex fullWidth mb={120} />
+          </div>
+          <div className='col-sm-4 col-md-6'>
+            <ImgPreview />
           </div>
         </div>
       </div>

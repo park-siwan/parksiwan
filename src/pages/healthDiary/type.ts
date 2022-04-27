@@ -1,19 +1,19 @@
-type muiTextField = string | number | readonly string[] | undefined;
+type muiTextField = FileList | null;
 
 export interface Inputs {
   // [x: string]: Date | string | { start: Date; end: Date };
   createDate: Date;
   title: string;
   desc: string;
-  descPicture?: muiTextField;
+  descImg: muiTextField;
   morning: string;
-  morningPicture?: muiTextField;
+  morningPicture: muiTextField;
   lunch: string;
-  lunchPicture?: muiTextField;
+  lunchPicture: muiTextField;
   dinner: string;
-  dinnerPicture?: muiTextField;
+  dinnerPicture: muiTextField;
   snack: string;
-  snackPicture?: muiTextField;
+  snackPicture: muiTextField;
   nutrients: string;
   sleepTimeStart: Date;
   sleepTimeEnd: Date;
