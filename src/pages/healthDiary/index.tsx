@@ -23,12 +23,13 @@ import PdfViewer from './pdf/PdfViewer';
 import {
   Button,
   ButtonGroup,
+  Input,
   ListItemIcon,
   ListItemText,
   Modal,
   Typography,
 } from '@mui/material';
-import { blueGrey, pink } from '@mui/material/colors';
+import { blueGrey, pink, grey } from '@mui/material/colors';
 import Flex from '../../components/atoms/Flex';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -43,6 +44,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { styled } from '@mui/material/styles';
+import { PhotoCamera } from '@mui/icons-material';
 const date = new Date();
 
 export default function HealthDiary() {
@@ -105,36 +108,38 @@ export default function HealthDiary() {
     exercise,
     review,
   } = watch();
-  useEffect(() => {
-    const current = getValues();
-    console.log(
-      '🚀 ~ file: index.tsx ~ line 112 ~ useEffect ~ current',
-      current
-    );
-    setData(current);
-  }, [
-    createDate,
-    title,
-    desc,
-    morning,
-    lunch,
-    dinner,
-    snack,
-    nutrients,
-    sleepTimeStart,
-    sleepTimeEnd,
-    exercise,
-    review,
-    setData,
-    getValues,
-    watch,
-  ]);
+  // useEffect(() => {
+  //   const current = getValues();
+  //   console.log(
+  //     '🚀 ~ file: index.tsx ~ line 112 ~ useEffect ~ current',
+  //     current
+  //   );
+  //   setData(current);
+  // }, [
+  //   createDate,
+  //   title,
+  //   desc,
+  //   morning,
+  //   lunch,
+  //   dinner,
+  //   snack,
+  //   nutrients,
+  //   sleepTimeStart,
+  //   sleepTimeEnd,
+  //   exercise,
+  //   review,
+  //   setData,
+  //   getValues,
+  //   watch,
+  // ]);
 
   //더보기(...) 버튼 전용
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleMoreClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+    const current = getValues();
+    setData(current);
   };
   const handleClose = (e: React.MouseEvent<HTMLElement>, target: string) => {
     // console.log(event);
@@ -166,6 +171,29 @@ export default function HealthDiary() {
     overflowY: 'scroll',
   };
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+
+  //사진용Input
+  const PictureInput = styled('input')({
+    display: 'none',
+    width: '10%',
+  });
+
+  const MealInput = styled(TextField)`
+    width: 90%;
+    margin-right: 16px;
+  `;
+
+  const WidthUpload = styled(Stack)`
+    flex-direction: row;
+    align-items: flex-end;
+  `;
+
+  const CameraIcon = ({ ariaLabel }: { ariaLabel: string }) => (
+    <IconButton aria-label={ariaLabel} component='span'>
+      <PhotoCamera />
+    </IconButton>
+  );
+  console.log(getValues());
   return (
     <>
       <PdfViewer instance={instance} updateInstance={updateInstance} />
@@ -280,9 +308,6 @@ export default function HealthDiary() {
         <div
           className='row'
           css={css`
-            /* display: flex; */
-
-            /* padding-top: 20px; */
             justify-content: center;
           `}
         >
@@ -332,7 +357,35 @@ export default function HealthDiary() {
                     />
                   )}
                 />
-                <h3>본문</h3>
+                <Stack
+                  direction={'row'}
+                  justifyContent='space-between'
+                  alignItems={'center'}
+                >
+                  <h3>본문</h3>
+                  <label
+                    htmlFor='icon-button-file-desc'
+                    css={css`
+                      display: flex;
+                      justify-content: flex-end;
+                    `}
+                  >
+                    <Controller
+                      name='descPicture'
+                      control={control}
+                      render={({ field }) => (
+                        <PictureInput
+                          onChange={(e) => field.onChange(e.target.files)}
+                          // ref={field.ref}
+                          accept='image/*'
+                          id='icon-button-file-desc'
+                          type='file'
+                        />
+                      )}
+                    />
+                    <CameraIcon ariaLabel='upload desc picture' />
+                  </label>
+                </Stack>
                 <Controller
                   name='desc'
                   control={control}
@@ -343,59 +396,138 @@ export default function HealthDiary() {
                       aria-label='diary contents'
                       placeholder='내용을 입력해주세요'
                       minRows={3}
-                      style={{ width: '100%' }}
+                      style={{
+                        width: '100%',
+                        border: `1px solid ${grey[300]}`,
+                        height: 200,
+                        padding: 30,
+                        borderRadius: 8,
+                      }}
                     />
                   )}
                 />
+
                 <h3>식단</h3>
-                <Controller
-                  name='morning'
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      label='아침'
-                      {...field}
-                      placeholder='아침 식사를 입력하세요'
-                      variant='standard'
+                <WidthUpload>
+                  <Controller
+                    name='morning'
+                    control={control}
+                    render={({ field }) => (
+                      <MealInput
+                        label='아침'
+                        {...field}
+                        placeholder='아침 식사를 입력하세요'
+                        variant='standard'
+                      />
+                    )}
+                  />
+                  <label htmlFor='icon-button-file-morning'>
+                    <Controller
+                      name='morningPicture'
+                      control={control}
+                      render={({ field }) => (
+                        <PictureInput
+                          onChange={(e) => field.onChange(e.target.files)}
+                          // ref={field.ref}
+                          accept='image/*'
+                          id='icon-button-file-morning'
+                          type='file'
+                        />
+                      )}
                     />
-                  )}
-                />
-                <Controller
-                  name='lunch'
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      label='점심'
-                      {...field}
-                      placeholder='점심 식사를 입력하세요'
-                      variant='standard'
+                    <CameraIcon ariaLabel='upload morning picture' />
+                  </label>
+                </WidthUpload>
+                <WidthUpload>
+                  <Controller
+                    name='lunch'
+                    control={control}
+                    render={({ field }) => (
+                      <MealInput
+                        label='점심'
+                        {...field}
+                        placeholder='점심 식사를 입력하세요'
+                        variant='standard'
+                      />
+                    )}
+                  />
+                  <label htmlFor='icon-button-file-lunch'>
+                    <Controller
+                      name='lunchPicture'
+                      control={control}
+                      render={({ field }) => (
+                        <PictureInput
+                          onChange={(e) => field.onChange(e.target.files)}
+                          // ref={field.ref}
+                          accept='image/*'
+                          id='icon-button-file-lunch'
+                          type='file'
+                        />
+                      )}
                     />
-                  )}
-                />
-                <Controller
-                  name='dinner'
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      label='저녁'
-                      {...field}
-                      placeholder='저녁 식사를 입력하세요'
-                      variant='standard'
+                    <CameraIcon ariaLabel='upload lunch picture' />
+                  </label>
+                </WidthUpload>
+                <WidthUpload>
+                  <Controller
+                    name='dinner'
+                    control={control}
+                    render={({ field }) => (
+                      <MealInput
+                        label='저녁'
+                        {...field}
+                        placeholder='저녁 식사를 입력하세요'
+                        variant='standard'
+                      />
+                    )}
+                  />
+                  <label htmlFor='icon-button-file-dinner'>
+                    <Controller
+                      name='dinnerPicture'
+                      control={control}
+                      render={({ field }) => (
+                        <PictureInput
+                          onChange={(e) => field.onChange(e.target.files)}
+                          // ref={field.ref}
+                          accept='image/*'
+                          id='icon-button-file-dinner'
+                          type='file'
+                        />
+                      )}
                     />
-                  )}
-                />
-                <Controller
-                  name='snack'
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      label='간식'
-                      {...field}
-                      placeholder='간식 식사를 입력하세요'
-                      variant='standard'
+                    <CameraIcon ariaLabel='upload dinner picture' />
+                  </label>
+                </WidthUpload>
+                <WidthUpload>
+                  <Controller
+                    name='snack'
+                    control={control}
+                    render={({ field }) => (
+                      <MealInput
+                        label='간식'
+                        {...field}
+                        placeholder='간식 식사를 입력하세요'
+                        variant='standard'
+                      />
+                    )}
+                  />
+                  <label htmlFor='icon-button-file-snack'>
+                    <Controller
+                      name='snackPicture'
+                      control={control}
+                      render={({ field }) => (
+                        <PictureInput
+                          onChange={(e) => field.onChange(e.target.files)}
+                          // ref={field.ref}
+                          accept='image/*'
+                          id='icon-button-file-snack'
+                          type='file'
+                        />
+                      )}
                     />
-                  )}
-                />
+                    <CameraIcon ariaLabel='upload snack picture' />
+                  </label>
+                </WidthUpload>
                 {/* 영양제기록 : 오토컴플리트(freesolo + Multiple values) */}
                 <Controller
                   name='nutrients'
@@ -422,14 +554,7 @@ export default function HealthDiary() {
                     render={({ field }) => (
                       <TimePicker
                         {...field}
-                        // {...fieldProps}
-                        // inputRef={ref}
                         label='취침 시간'
-                        // value={field.value}
-                        // onChange={(newValue) => {
-                        //   field.onChange(newValue);
-                        // }}
-                        // inputRef={field.ref}
                         inputFormat={'a hh:mm'}
                         renderInput={(params) => (
                           <TextField
@@ -487,13 +612,10 @@ export default function HealthDiary() {
                     />
                   )}
                 />
-
-                {/* <input type='submit' value='콘솔확인' /> */}
               </Stack>
             </form>
             <Flex fullWidth mb={120} />
           </div>
-          {/* <PdfViewer instance={instance} updateInstance={updateInstance} /> */}
         </div>
       </div>
     </>
