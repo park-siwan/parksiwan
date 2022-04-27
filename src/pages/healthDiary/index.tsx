@@ -19,7 +19,7 @@ import { Inputs } from './type';
 import { Font, usePDF } from '@react-pdf/renderer';
 import PdfRenderer from './PdfRenderer';
 import PdfViewer from './PdfViewer';
-// import Button from '../../components/atoms/Button';
+
 import {
   Button,
   ButtonGroup,
