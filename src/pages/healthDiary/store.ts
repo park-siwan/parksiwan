@@ -1,6 +1,10 @@
 import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 import { Inputs } from './type';
+// import add from "date-fns/add";
+import { add, set } from 'date-fns';
 const date = new Date();
+const goToBedTime = set(date, { hours: 23, minutes: 0 });
+const wakeUpTime = add(goToBedTime, { hours: 8, minutes: 30 });
 const defaultValue = {
   createDate: date,
   title: '오늘의 건강일기',
@@ -11,7 +15,8 @@ const defaultValue = {
   dinner: '국밥',
   snack: '아메리카노',
   nutrients: '유산균, 비타민C, 오메가3',
-  sleepTime: date,
+  sleepTimeStart: goToBedTime,
+  sleepTimeEnd: wakeUpTime,
   exercise: '테니스 운동을 2시간 했다.',
   review: '유산소 운동 2시간 하고 밥도 잘 챙겨먹었다.',
 };

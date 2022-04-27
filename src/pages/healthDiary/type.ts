@@ -1,4 +1,5 @@
 export interface Inputs {
+  // [x: string]: Date | string | { start: Date; end: Date };
   createDate: Date;
   title: string;
   desc: string;
@@ -7,7 +8,9 @@ export interface Inputs {
   dinner: string;
   snack: string;
   nutrients: string;
-  sleepTime: Date;
+  sleepTimeStart: Date;
+  sleepTimeEnd: Date;
+  // sleepTime: { start: Date; end: Date };
   exercise: string;
   review: string;
 }

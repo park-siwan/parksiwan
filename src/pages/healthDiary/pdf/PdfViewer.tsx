@@ -3,13 +3,13 @@ import React, { ReactNode, useEffect, useState } from 'react';
 
 //pdf viewer
 import { Document as Document2, Page as Page2, pdfjs } from 'react-pdf';
-import useWindowSize from '../../hooks/useWindowSize';
+import useWindowSize from '../../../hooks/useWindowSize';
 import { useRecoilValue } from 'recoil';
-import { diaryData } from './store';
+import { diaryData } from '../store';
 import { Button } from '@mui/material';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import Flex from '../../components/atoms/Flex';
+import Flex from '../../../components/atoms/Flex';
 // import { setTimeout } from 'timers';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -73,6 +73,9 @@ export default function PrintDocs({
       </Document2>
 
       <Flex jc='end'>
+        <Button onClick={updateInstance} sx={{ mr: 2 }}>
+          pdf새로고침
+        </Button>
         <Button
           variant='outlined'
           sx={{ marginRight: 2 }}

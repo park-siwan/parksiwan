@@ -17,9 +17,9 @@ import { useRecoilState } from 'recoil';
 import { diaryData } from './store';
 import { Inputs } from './type';
 import { Font, usePDF } from '@react-pdf/renderer';
-import PdfRenderer from './PdfRenderer';
-import PdfViewer from './PdfViewer';
-
+import PdfRenderer from './pdf/PdfRenderer';
+import PdfViewer from './pdf/PdfViewer';
+// import Button from '../../components/atoms/Button';
 import {
   Button,
   ButtonGroup,
@@ -42,6 +42,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 const date = new Date();
 
 export default function HealthDiary() {
@@ -53,10 +54,26 @@ export default function HealthDiary() {
   });
 
   useEffect(() => {
+    // 스포카폰트 : https://spoqa.github.io/spoqa-han-sans/
     Font.register({
       family: 'Spoqa',
-      src: 'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.ttf',
+      fonts: [
+        {
+          src: 'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.ttf',
+          fontWeight: 400,
+        },
+        {
+          src: 'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.ttf',
+          fontWeight: 500,
+        },
+        {
+          src: 'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.ttf',
+          fontWeight: 700,
+        },
+      ],
     });
+    // 500 : https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.ttf
+    // 700 : https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.ttf
   }, []);
 
   const {
@@ -83,12 +100,17 @@ export default function HealthDiary() {
     dinner,
     snack,
     nutrients,
-    sleepTime,
+    sleepTimeStart,
+    sleepTimeEnd,
     exercise,
     review,
   } = watch();
   useEffect(() => {
     const current = getValues();
+    console.log(
+      '🚀 ~ file: index.tsx ~ line 112 ~ useEffect ~ current',
+      current
+    );
     setData(current);
   }, [
     createDate,
@@ -99,7 +121,8 @@ export default function HealthDiary() {
     dinner,
     snack,
     nutrients,
-    sleepTime,
+    sleepTimeStart,
+    sleepTimeEnd,
     exercise,
     review,
     setData,
@@ -145,6 +168,7 @@ export default function HealthDiary() {
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
   return (
     <>
+      <PdfViewer instance={instance} updateInstance={updateInstance} />
       <Modal
         open={modalOpen}
         onClose={handleModalClose}
@@ -323,7 +347,7 @@ export default function HealthDiary() {
                     />
                   )}
                 />
-
+                <h3>식단</h3>
                 <Controller
                   name='morning'
                   control={control}
@@ -372,10 +396,7 @@ export default function HealthDiary() {
                     />
                   )}
                 />
-
                 {/* 영양제기록 : 오토컴플리트(freesolo + Multiple values) */}
-                {/* 수면시간 : 타임픽커 */}
-                {/* 운동기록 : 오토컴플리트(freesolo운동종류 + dialog운동시간입력 요청 ) */}
                 <Controller
                   name='nutrients'
                   control={control}
@@ -388,6 +409,59 @@ export default function HealthDiary() {
                     />
                   )}
                 />
+                {/* 수면시간 : 타임픽커 */}
+                <h3>수면 시간</h3>
+                <div
+                  css={css`
+                    display: flex;
+                  `}
+                >
+                  <Controller
+                    name='sleepTimeStart'
+                    control={control}
+                    render={({ field }) => (
+                      <TimePicker
+                        {...field}
+                        // {...fieldProps}
+                        // inputRef={ref}
+                        label='취침 시간'
+                        // value={field.value}
+                        // onChange={(newValue) => {
+                        //   field.onChange(newValue);
+                        // }}
+                        // inputRef={field.ref}
+                        inputFormat={'a hh:mm'}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant='standard'
+                            sx={{ width: '50%', mr: 4 }}
+                          />
+                        )}
+                      />
+                    )}
+                  />
+                  <Controller
+                    name='sleepTimeEnd'
+                    control={control}
+                    render={({ field }) => (
+                      <TimePicker
+                        {...field}
+                        label='기상 시간'
+                        inputFormat={'a hh:mm'}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant='standard'
+                            sx={{ width: '50%' }}
+                          />
+                        )}
+                      />
+                    )}
+                  />
+                </div>
+                <h3>운동</h3>
+                {/* 운동기록 : 오토컴플리트(freesolo운동종류 + dialog운동시간입력 요청 ) */}
                 <Controller
                   name='exercise'
                   control={control}
@@ -400,12 +474,13 @@ export default function HealthDiary() {
                     />
                   )}
                 />
+                <h3>후기</h3>
                 <Controller
                   name='review'
                   control={control}
                   render={({ field }) => (
                     <TextField
-                      label='한줄평'
+                      label='한 줄 평'
                       {...field}
                       placeholder='한줄평을 남겨주세요'
                       variant='standard'
