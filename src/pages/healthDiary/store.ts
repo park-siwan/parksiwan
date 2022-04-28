@@ -5,6 +5,7 @@ import { add, set } from 'date-fns';
 const date = new Date();
 const goToBedTime = set(date, { hours: 23, minutes: 0 });
 const wakeUpTime = add(goToBedTime, { hours: 8, minutes: 30 });
+const reader = new FileReader();
 const defaultValue = {
   createDate: date,
   title: '오늘의 건강일기',
@@ -18,27 +19,16 @@ const defaultValue = {
   sleepTimeEnd: wakeUpTime,
   exercise: '테니스 운동을 2시간 했다.',
   review: '유산소 운동 2시간 하고 밥도 잘 챙겨먹었다.',
-  descImg: null,
-  morningPicture: null,
-  lunchPicture: null,
-  dinnerPicture: null,
-  snackPicture: null,
+  descImg: { reader: reader, file: null },
+  morningImg: { reader: reader, file: null },
+  lunchImg: { reader: reader, file: null },
+  dinnerImg: { reader: reader, file: null },
+  snackImg: { reader: reader, file: null },
 };
 export const diaryData = atom<Inputs>({
   key: 'diaryData',
   default: {
     ...defaultValue,
-    // createDate: date,
-    // title: '',
-    // desc: '',
-    // morning: '',
-    // lunch: '',
-    // dinner: '',
-    // snack: '',
-    // nutrients: '',
-    // sleepTime: date,
-    // exercise: '',
-    // review: '',
   },
 });
 // const diaryDataSelector = selector({

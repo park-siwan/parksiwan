@@ -1,19 +1,24 @@
-type muiTextField = FileList | null;
-
-export interface Inputs {
-  // [x: string]: Date | string | { start: Date; end: Date };
+// type muiTextField = FileList | null;
+interface ImgFile {
+  reader: null | FileReader;
+  file: null | File;
+}
+export interface ImgFileList {
+  descImg: ImgFile | null;
+  morningImg: ImgFile | null;
+  lunchImg: ImgFile | null;
+  dinnerImg: ImgFile | null;
+  snackImg: ImgFile | null;
+}
+export interface Inputs extends ImgFileList {
+  [x: string]: unknown;
   createDate: Date;
   title: string;
   desc: string;
-  descImg: muiTextField;
   morning: string;
-  morningPicture: muiTextField;
   lunch: string;
-  lunchPicture: muiTextField;
   dinner: string;
-  dinnerPicture: muiTextField;
   snack: string;
-  snackPicture: muiTextField;
   nutrients: string;
   sleepTimeStart: Date;
   sleepTimeEnd: Date;
